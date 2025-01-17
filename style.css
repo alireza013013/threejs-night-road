@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+.wrbgl {
+    position: fixed;
+    top: 0;
+    left: 0;
+    outline: none;
+}
