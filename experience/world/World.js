@@ -19,16 +19,31 @@ export default class World {
             fourth: "#ff0000",
         }
         this.carsSpeed = {
-            first: 200,
-            second: 140,
-            third: -150,
-            fourth: -190,
+            first: 120,
+            second: 160,
+            third: -190,
+            fourth: -150,
         }
+
+        this.groupWorld = new THREE.Group()
 
         this.road = new Road()
         this.deviderRoad = new DeviderRoad()
         this.lightRoad = new LightRoad(160)
+
+        // this.deviderRoad.deviderRoadMesh.visible = false
+        // this.lightRoad.lightCarMesh.visible = false
+
         this.setCars()
+        this.groupWorld.add(this.road.roadMesh)
+        this.groupWorld.add(this.deviderRoad.deviderRoadMesh)
+        this.groupWorld.add(this.lightRoad.lightCarMesh)
+        this.cars.forEach((item) => {
+            this.groupWorld.add(item.lightCarMesh)
+        })
+
+        this.scene.add(this.groupWorld)
+
 
         if (this.debug.active)
             this.setDebug()
@@ -86,7 +101,8 @@ export default class World {
             car.SpeedDown()
         })
         this.lightRoad.SpeedDown()
-
+        this.road.SpeedDown()
+        this.deviderRoad.SpeedDown()
     }
 
     SpeedUp() {
@@ -94,6 +110,8 @@ export default class World {
             car.SpeedUp()
         })
         this.lightRoad.SpeedUp()
+        this.road.SpeedUp()
+        this.deviderRoad.SpeedUp()
     }
 
     update() {
@@ -101,5 +119,7 @@ export default class World {
             car.update()
         })
         this.lightRoad.update()
+        this.road.update()
+        this.deviderRoad.update()
     }
 }

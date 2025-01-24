@@ -25,7 +25,14 @@ export default class Experience {
             widthRoad: 18,
             lengthRoad: 400,
             countPairCar: 100,
-            roadSection: 2
+            roadSection: 2,
+            roadXAmplitude: 12,
+            roadXFrequency: 0.01,
+            roadYAmplitude: 15,
+            roadYFrequency: 0.03,
+            baseSpeed: 40,
+            amountIncreaseSpeed: 80,
+            amountIncreaseBaseSpeed: 60,
         }
 
         // Setup
@@ -33,14 +40,14 @@ export default class Experience {
         this.sizes = new Sizes()
         this.time = new Time()
         this.scene = new THREE.Scene()
+        this.world = new World()
         this.camera = new Camera()
         this.renderer = new Renderer()
-        this.world = new World()
 
 
         // axes helper
-        const axesHelper = new THREE.AxesHelper(2)
-        this.scene.add(axesHelper)
+        // const axesHelper = new THREE.AxesHelper(20)
+        // this.scene.add(axesHelper)
         // Resize event
         this.sizes.on('resize', () => {
             this.resize()

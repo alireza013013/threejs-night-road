@@ -13,9 +13,7 @@ export default class LightCar {
         this.color = color
         this.speed = speed
         this.direction = direction
-        this.speedUpTarget = 0;
-        this.speedUp = 0;
-        this.timeOffset = 0;
+        this.speedUpTarget = this.speed;
 
         this.setGeometry()
         this.setAttribute()
@@ -84,49 +82,35 @@ export default class LightCar {
                 uTime: { value: 0 },
                 uSpeed: { value: this.speed },
                 uTravelLength: { value: this.options.lengthRoad },
-                uDistortionX: { value: new THREE.Vector2(10, 10) },
-                uDistortionY: { value: new THREE.Vector2(12, 5) },
+                uDistortionX: { value: new THREE.Vector2(this.options.roadXAmplitude, this.options.roadXFrequency) },
+                uDistortionY: { value: new THREE.Vector2(this.options.roadYAmplitude, this.options.roadYFrequency) },
+                uBaseSpeed: { value: this.options.baseSpeed },
             },
             side: THREE.FrontSide,
-            // blending: THREE.AdditiveBlending,
-            // transparent: true
         });
     }
 
     setMesh() {
         this.lightCarMesh = new THREE.Mesh(this.instanceLightCarGeometry, this.materialLightCar);
         this.lightCarMesh.scale.set(0.15, 0.15, 0.15)
-        this.scene.add(this.lightCarMesh)
+        this.lightCarMesh.frustumCulled = false
+        // this.scene.add(this.lightCarMesh)
     }
 
     SpeedDown() {
-        this.speedUpTarget = 0.002;
-
+        this.speedUpTarget = this.speed + (this.options.amountIncreaseSpeed * Math.sign(this.speed));
+        this.materialLightCar.uniforms.uSpeed.value = this.speedUpTarget
+        this.materialLightCar.uniforms.uBaseSpeed.value = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
     }
 
     SpeedUp() {
-        this.speedUpTarget = 0;
+        this.speedUpTarget = this.speed;
+        this.materialLightCar.uniforms.uSpeed.value = this.speedUpTarget
+        this.materialLightCar.uniforms.uBaseSpeed.value = this.options.baseSpeed
     }
 
-    lerp(current, target, speed = 0.1, limit = 0.001) {
-        let change = (target - current) * speed;
-        if (Math.abs(change) < limit) {
-            change = target - current;
-        }
-        return change;
-    }
 
     update() {
-        let coefficient = -60 * Math.log2(1 - 0.1);
-        let lerpT = Math.exp(-coefficient * this.time.delta);
-        this.speedUp += this.lerp(
-            this.speedUp,
-            this.speedUpTarget,
-            lerpT,
-            0.00001
-        );
-        this.timeOffset += this.speedUp * this.time.delta;
-
-        this.materialLightCar.uniforms.uTime.value = this.time.elapsedTime + this.timeOffset
+        this.materialLightCar.uniforms.uTime.value = this.time.elapsedTime
     }
 }

@@ -11,6 +11,11 @@ export default class Road {
         this.options = this.experience.options
         this.debug = this.experience.debug
         this.roadColor = "#100a09"
+        this.time = this.experience.time
+        this.speed = 160
+        this.speedUpTarget = 0;
+        this.speedUp = 0;
+        this.timeOffset = 0;
 
 
         this.initialize()
@@ -25,16 +30,33 @@ export default class Road {
             fragmentShader: roadFagment,
             uniforms: {
                 uColor: { value: new THREE.Color(this.roadColor) },
-                uDistortionX: { value: new THREE.Vector2(10, 10) },
-                uDistortionY: { value: new THREE.Vector2(12, 5) },
-                uTravelLength: { value: this.options.lengthRoad }
+                uSpeed: { value: this.speed },
+                uDistortionX: { value: new THREE.Vector2(this.options.roadXAmplitude, this.options.roadXFrequency) },
+                uDistortionY: { value: new THREE.Vector2(this.options.roadYAmplitude, this.options.roadYFrequency) },
+                uBaseSpeed: { value: this.options.baseSpeed },
+                uTravelLength: { value: this.options.lengthRoad },
+                uTime: { value: 0 },
             }
         })
 
         this.roadMesh = new THREE.Mesh(this.roadGeometry, this.roadMaterial)
         this.roadMesh.rotation.x = -Math.PI / 2
         this.roadMesh.position.z = this.options.lengthRoad / 2;
-        this.scene.add(this.roadMesh)
+        // this.scene.add(this.roadMesh)
+        // this.experience.world.groupWorld.add(this.roadMesh)
+    }
+
+
+    SpeedDown() {
+        this.roadMaterial.uniforms.uBaseSpeed.value = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed;
+    }
+
+    SpeedUp() {
+        this.roadMaterial.uniforms.uBaseSpeed.value = this.options.baseSpeed;
+    }
+
+    update() {
+        this.roadMaterial.uniforms.uTime.value = this.time.elapsedTime
     }
 
     setDebug() {
