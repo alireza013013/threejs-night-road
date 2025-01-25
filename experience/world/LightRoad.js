@@ -17,6 +17,10 @@ export default class LightRoad {
         this.speed = speed
         this.speedUpTarget = 0;
 
+
+        this.speedBase = this.options.baseSpeed
+        this.speedTargetBase = this.options.baseSpeed
+
         this.setGeometry()
         this.setAttribute()
         this.setMaterial()
@@ -74,25 +78,39 @@ export default class LightRoad {
         this.lightCarMesh.rotation.x = Math.PI / 2
         this.lightCarMesh.position.x = this.options.widthRoad / 2 - 0.5
         this.lightCarMesh.frustumCulled = false
-        // this.scene.add(this.lightCarMesh)
+        this.scene.add(this.lightCarMesh)
     }
 
     SpeedDown() {
         this.speedUpTarget = this.speed + this.options.amountIncreaseSpeed;
         this.materialLightCar.uniforms.uSpeed.value = this.speedUpTarget
-        this.materialLightCar.uniforms.uBaseSpeed.value = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
 
+        this.speedTargetBase = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
     }
 
     SpeedUp() {
         this.speedUpTarget = this.speed;
         this.materialLightCar.uniforms.uSpeed.value = this.speedUpTarget
-        this.materialLightCar.uniforms.uBaseSpeed.value = this.options.baseSpeed
+
+        this.speedTargetBase = this.options.baseSpeed
+    }
+
+    lerp(current, target, speed = 0.1, limit = 0.001) {
+        let change = (target - current) * speed;
+        if (Math.abs(change) < limit) {
+            change = target - current;
+        }
+        return change;
     }
 
 
+
     update() {
-        this.materialLightCar.uniforms.uTime.value = this.time.elapsedTime
+        this.speedBase += this.lerp(this.speedBase, this.speedTargetBase, 0.01);
+        this.progress = (this.progress || 0) + this.speedBase * this.time.delta;
+
+        this.materialLightCar.uniforms.uBaseSpeed.value = this.speedBase;
+        this.materialLightCar.uniforms.uTime.value = this.progress;
     }
 
     setDebug() {

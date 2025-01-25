@@ -11,12 +11,10 @@ export default class Road {
         this.options = this.experience.options
         this.debug = this.experience.debug
         this.roadColor = "#100a09"
-        this.time = this.experience.time
-        this.speed = 160
-        this.speedUpTarget = 0;
-        this.speedUp = 0;
-        this.timeOffset = 0;
 
+        this.time = this.experience.time
+        this.speed = this.options.baseSpeed
+        this.speedTarget = this.options.baseSpeed
 
         this.initialize()
         if (this.debug.active)
@@ -42,21 +40,32 @@ export default class Road {
         this.roadMesh = new THREE.Mesh(this.roadGeometry, this.roadMaterial)
         this.roadMesh.rotation.x = -Math.PI / 2
         this.roadMesh.position.z = this.options.lengthRoad / 2;
-        // this.scene.add(this.roadMesh)
-        // this.experience.world.groupWorld.add(this.roadMesh)
+        this.scene.add(this.roadMesh)
     }
 
 
     SpeedDown() {
-        this.roadMaterial.uniforms.uBaseSpeed.value = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed;
+        this.speedTarget = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
     }
 
     SpeedUp() {
-        this.roadMaterial.uniforms.uBaseSpeed.value = this.options.baseSpeed;
+        this.speedTarget = this.options.baseSpeed
+    }
+
+    lerp(current, target, speed = 0.1, limit = 0.001) {
+        let change = (target - current) * speed;
+        if (Math.abs(change) < limit) {
+            change = target - current;
+        }
+        return change;
     }
 
     update() {
-        this.roadMaterial.uniforms.uTime.value = this.time.elapsedTime
+        this.speed += this.lerp(this.speed, this.speedTarget, 0.01);
+        this.progress = (this.progress || 0) + this.speed * this.time.delta;
+
+        this.roadMaterial.uniforms.uBaseSpeed.value = this.speed;
+        this.roadMaterial.uniforms.uTime.value = this.progress;
     }
 
     setDebug() {

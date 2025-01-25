@@ -11,7 +11,8 @@ uniform float uBaseSpeed;
 void main() {
     vec4 modelPosition = modelMatrix * vec4(position,1.0);
 
-    float progress = modelPosition.z + uTime * uBaseSpeed;
+    float progress = modelPosition.z + uTime;
+
     modelPosition.x += uDistortionX.x * sin(progress * uDistortionX.y);
     modelPosition.y += uDistortionY.x * sin(progress * uDistortionY.y);
 

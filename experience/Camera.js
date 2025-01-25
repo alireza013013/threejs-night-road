@@ -13,6 +13,7 @@ export default class Camera {
         this.time = this.experience.time
         this.fovTarget = 45
         this.speed = this.options.baseSpeed
+        this.speedTarget = this.options.baseSpeed
 
 
         this.setInstance()
@@ -22,17 +23,14 @@ export default class Camera {
     }
 
     setInstance() {
-        this.instance = new THREE.PerspectiveCamera(45, this.sizes.width / this.sizes.height, 0.1, 1000)
-        // this.instance.position.set(3, 24, this.options.lengthRoad + 20)
+        this.instance = new THREE.PerspectiveCamera(65, this.sizes.width / this.sizes.height, 0.1, 1000)
         this.instance.position.set(-100, 200, -100)
-        // this.instance.position.set(9, 20, 1)
-
         this.scene.add(this.instance)
     }
 
     setControls() {
-        this.controls = new OrbitControls(this.instance, this.canvas)
-        this.controls.enableDamping = true
+        // this.controls = new OrbitControls(this.instance, this.canvas)
+        // this.controls.enableDamping = true
         // this.controls.enableRotate = false
         // this.controls.enableZoom = false
         // this.controls.enablePan = false
@@ -53,13 +51,13 @@ export default class Camera {
     }
 
     increaseFov() {
-        this.speed = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
-        this.fovTarget = 65
+        this.speedTarget = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
+        this.fovTarget = 95
     }
 
     decreseFov() {
-        this.speed = this.options.baseSpeed
-        this.fovTarget = 45
+        this.speedTarget = this.options.baseSpeed
+        this.fovTarget = 65
     }
     lerp(current, target, speed = 0.1, limit = 0.001) {
         let change = (target - current) * speed;
@@ -70,20 +68,22 @@ export default class Camera {
     }
 
     update() {
-        this.controls.update()
-        // this.speed += this.lerp(this.speed, this.speed + this.options.amountIncreaseBaseSpeed, 0.1)
-        let progress = this.time.elapsedTime * this.speed + 100;
-        let posX = this.options.roadXAmplitude * Math.sin(progress * this.options.roadXFrequency);
-        let posY = this.options.roadYAmplitude * Math.sin(progress * this.options.roadYFrequency);
-        this.instance.position.set(posX, posY + 3, 100);
+        // this.controls.update()
+
+
+        this.speed += this.lerp(this.speed, this.speedTarget, 0.01);
+        this.progress = (this.progress || 0) + this.speed * this.time.delta;
+        let posX = this.options.roadXAmplitude * Math.sin((this.progress + 150) * this.options.roadXFrequency);
+        let posY = this.options.roadYAmplitude * Math.sin((this.progress + 150) * this.options.roadYFrequency);
+        this.instance.position.set(posX, posY + 4, 150);
         const lookTarget = new THREE.Vector3(
             posX,
-            posY + 4,
-            130
+            posY + 5,
+            160
         );
         this.instance.lookAt(lookTarget);
 
-        this.instance.fov += this.lerp(this.instance.fov, this.fovTarget, 0.1)
+        this.instance.fov += this.lerp(this.instance.fov, this.fovTarget, 0.1) * this.time.delta * 0.01
         this.instance.updateProjectionMatrix();
     }
 }

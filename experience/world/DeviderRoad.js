@@ -14,6 +14,8 @@ export default class DeviderRoad {
         this.debug = this.experience.debug
         this.time = this.experience.time
         this.deviderRoadColor = "#1c1f26"
+        this.speed = this.options.baseSpeed
+        this.speedTarget = this.options.baseSpeed
 
 
 
@@ -48,19 +50,32 @@ export default class DeviderRoad {
         this.deviderRoadMesh = new THREE.Mesh(this.deviderRoadGeometry, this.deviderRoadMaterial)
         this.deviderRoadMesh.rotation.x = -Math.PI / 2
         this.deviderRoadMesh.position.z = this.options.lengthRoad / 2;
-        // this.scene.add(this.deviderRoadMesh)
+        this.scene.add(this.deviderRoadMesh)
     }
 
     SpeedDown() {
-        this.deviderRoadMaterial.uniforms.uBaseSpeed.value = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
+        this.speedTarget = this.options.baseSpeed + this.options.amountIncreaseBaseSpeed
+
     }
 
     SpeedUp() {
-        this.deviderRoadMaterial.uniforms.uBaseSpeed.value = this.options.baseSpeed
+        this.speedTarget = this.options.baseSpeed
+
+    }
+    lerp(current, target, speed = 0.1, limit = 0.001) {
+        let change = (target - current) * speed;
+        if (Math.abs(change) < limit) {
+            change = target - current;
+        }
+        return change;
     }
 
     update() {
-        this.deviderRoadMaterial.uniforms.uTime.value = this.time.elapsedTime
+        this.speed += this.lerp(this.speed, this.speedTarget, 0.01);
+        this.progress = (this.progress || 0) + this.speed * this.time.delta;
+
+        this.deviderRoadMaterial.uniforms.uBaseSpeed.value = this.speed;
+        this.deviderRoadMaterial.uniforms.uTime.value = this.progress;
     }
 
 

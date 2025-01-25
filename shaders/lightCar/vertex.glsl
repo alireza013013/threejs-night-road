@@ -26,7 +26,7 @@ void main() {
 
 	modelPosition.z += zOffset;
 
-    float progress = modelPosition.z + uTime * uBaseSpeed;
+    float progress = modelPosition.z + uTime;
     modelPosition.x += uDistortionX.x * sin(progress * uDistortionX.y);
     modelPosition.y += uDistortionY.x  * sin(progress *uDistortionY.y );
 

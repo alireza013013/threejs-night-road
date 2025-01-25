@@ -30,9 +30,9 @@ export default class Experience {
             roadXFrequency: 0.01,
             roadYAmplitude: 15,
             roadYFrequency: 0.03,
-            baseSpeed: 40,
-            amountIncreaseSpeed: 80,
-            amountIncreaseBaseSpeed: 60,
+            baseSpeed: 0.06,
+            amountIncreaseSpeed: 0.2,
+            amountIncreaseBaseSpeed: 0.1,
         }
 
         // Setup

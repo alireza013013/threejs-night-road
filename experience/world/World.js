@@ -19,31 +19,18 @@ export default class World {
             fourth: "#ff0000",
         }
         this.carsSpeed = {
-            first: 120,
-            second: 160,
-            third: -190,
-            fourth: -150,
+            first: 1,
+            second: 1,
+            third: -2.6,
+            fourth: -3.5,
         }
 
-        this.groupWorld = new THREE.Group()
 
         this.road = new Road()
         this.deviderRoad = new DeviderRoad()
-        this.lightRoad = new LightRoad(160)
-
-        // this.deviderRoad.deviderRoadMesh.visible = false
-        // this.lightRoad.lightCarMesh.visible = false
+        this.lightRoad = new LightRoad(0.016)
 
         this.setCars()
-        this.groupWorld.add(this.road.roadMesh)
-        this.groupWorld.add(this.deviderRoad.deviderRoadMesh)
-        this.groupWorld.add(this.lightRoad.lightCarMesh)
-        this.cars.forEach((item) => {
-            this.groupWorld.add(item.lightCarMesh)
-        })
-
-        this.scene.add(this.groupWorld)
-
 
         if (this.debug.active)
             this.setDebug()
