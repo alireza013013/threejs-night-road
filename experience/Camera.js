@@ -75,11 +75,12 @@ export default class Camera {
         this.progress = (this.progress || 0) + this.speed * this.time.delta;
         let posX = this.options.roadXAmplitude * Math.sin((this.progress + 150) * this.options.roadXFrequency);
         let posY = this.options.roadYAmplitude * Math.sin((this.progress + 150) * this.options.roadYFrequency);
-        this.instance.position.set(posX, posY + 4, 150);
+        this.instance.position.set(posX, posY + 6, 150);
+
         const lookTarget = new THREE.Vector3(
             posX,
-            posY + 5,
-            160
+            posY + posY * 0.2,
+            175
         );
         this.instance.lookAt(lookTarget);
 
