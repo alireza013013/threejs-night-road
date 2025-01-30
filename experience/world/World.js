@@ -54,21 +54,21 @@ export default class World {
         CarsFolder.addColor(this.carsColor, "first").name("first Car").onChange((value) => {
             this.firstCar.materialLightCar.uniforms.uColor.value = new THREE.Color(value)
         })
-        CarsFolder.add(this.carsSpeed, "first").min(-300).max(300).step(0.1).name("speed first car").onFinishChange(() => {
+        CarsFolder.add(this.carsSpeed, "first").min(-10).max(10).step(0.1).name("speed first car").onFinishChange(() => {
             this.firstCar.materialLightCar.uniforms.uSpeed.value = this.carsSpeed.first
         })
 
         CarsFolder.addColor(this.carsColor, "second").name("second Car").onChange((value) => {
             this.secondCar.materialLightCar.uniforms.uColor.value = new THREE.Color(value)
         })
-        CarsFolder.add(this.carsSpeed, "second").min(-300).max(300).step(0.1).name("speed second car").onFinishChange(() => {
+        CarsFolder.add(this.carsSpeed, "second").min(-10).max(10).step(0.1).name("speed second car").onFinishChange(() => {
             this.secondCar.materialLightCar.uniforms.uSpeed.value = this.carsSpeed.second
         })
 
         CarsFolder.addColor(this.carsColor, "third").name("third Car").onChange((value) => {
             this.thirdCar.materialLightCar.uniforms.uColor.value = new THREE.Color(value)
         })
-        CarsFolder.add(this.carsSpeed, "third").min(-300).max(300).step(0.1).name("speed third car").onFinishChange(() => {
+        CarsFolder.add(this.carsSpeed, "third").min(-10).max(10).step(0.1).name("speed third car").onFinishChange(() => {
             this.thirdCar.materialLightCar.uniforms.uSpeed.value = this.carsSpeed.third
         })
 
@@ -77,7 +77,7 @@ export default class World {
         CarsFolder.addColor(this.carsColor, "fourth").name("fourth Car").onChange((value) => {
             this.fourthCar.materialLightCar.uniforms.uColor.value = new THREE.Color(value)
         })
-        CarsFolder.add(this.carsSpeed, "fourth").min(-300).max(300).step(0.1).name("speed fourth car").onFinishChange(() => {
+        CarsFolder.add(this.carsSpeed, "fourth").min(-10).max(10).step(0.1).name("speed fourth car").onFinishChange(() => {
             this.fourthCar.materialLightCar.uniforms.uSpeed.value = this.carsSpeed.fourth
         })
     }

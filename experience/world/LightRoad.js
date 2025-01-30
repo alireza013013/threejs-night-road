@@ -115,7 +115,7 @@ export default class LightRoad {
 
     setDebug() {
         const lightRoadFolder = this.debug.ui.addFolder("Light Road")
-        lightRoadFolder.add(this, "speed").min(-300).max(300).step(0.01).name("light Road Speed").onChange(() => {
+        lightRoadFolder.add(this, "speed").min(-10).max(10).step(0.01).name("light Road Speed").onChange(() => {
             this.materialLightCar.uniforms.uSpeed.value = this.speed
         })
     }

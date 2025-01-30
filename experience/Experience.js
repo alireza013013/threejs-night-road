@@ -45,9 +45,9 @@ export default class Experience {
         this.renderer = new Renderer()
 
 
-        // axes helper
-        // const axesHelper = new THREE.AxesHelper(20)
-        // this.scene.add(axesHelper)
+        if (this.debug.active)
+            this.setDebug()
+
         // Resize event
         this.sizes.on('resize', () => {
             this.resize()
@@ -56,22 +56,6 @@ export default class Experience {
         // Time tick event
         this.time.on('tick', () => {
             this.update()
-        })
-
-
-        document.addEventListener("mousedown", () => {
-            this.mouseDown()
-        })
-
-        document.addEventListener("touchstart", () => {
-            this.mouseDown()
-        })
-
-        document.addEventListener("mouseup", () => {
-            this.mouseUp()
-        })
-        document.addEventListener("touchend", () => {
-            this.mouseUp()
         })
     }
 
@@ -94,6 +78,43 @@ export default class Experience {
     mouseUp() {
         this.world.SpeedUp()
         this.camera.decreseFov()
+    }
+
+    setDebug() {
+        const pathDolder = this.debug.ui.addFolder("Path Folder")
+        pathDolder.add(this.options, "roadXAmplitude").min(-40).max(40).step(0.1).name("Path X Amplitude").onFinishChange(() => {
+            this.world.road.roadMaterial.uniforms.uDistortionX.value.x = this.options.roadXAmplitude
+            this.world.deviderRoad.deviderRoadMaterial.uniforms.uDistortionX.value.x = this.options.roadXAmplitude
+            this.world.lightRoad.materialLightCar.uniforms.uDistortionX.value.x = this.options.roadXAmplitude
+            this.world.cars.forEach((item) => {
+                item.materialLightCar.uniforms.uDistortionX.value.x = this.options.roadXAmplitude
+            })
+        })
+        pathDolder.add(this.options, "roadXFrequency").min(-0.3).max(0.3).step(0.001).name("Path X Frequency").onFinishChange(() => {
+            this.world.road.roadMaterial.uniforms.uDistortionX.value.y = this.options.roadXFrequency
+            this.world.deviderRoad.deviderRoadMaterial.uniforms.uDistortionX.value.y = this.options.roadXFrequency
+            this.world.lightRoad.materialLightCar.uniforms.uDistortionX.value.y = this.options.roadXFrequency
+            this.world.cars.forEach((item) => {
+                item.materialLightCar.uniforms.uDistortionX.value.y = this.options.roadXFrequency
+            })
+        })
+
+        pathDolder.add(this.options, "roadYAmplitude").min(-40).max(40).step(0.1).name("Path Y Amplitude").onFinishChange(() => {
+            this.world.road.roadMaterial.uniforms.uDistortionY.value.x = this.options.roadYAmplitude
+            this.world.deviderRoad.deviderRoadMaterial.uniforms.uDistortionY.value.x = this.options.roadYAmplitude
+            this.world.lightRoad.materialLightCar.uniforms.uDistortionY.value.x = this.options.roadYAmplitude
+            this.world.cars.forEach((item) => {
+                item.materialLightCar.uniforms.uDistortionY.value.x = this.options.roadYAmplitude
+            })
+        })
+        pathDolder.add(this.options, "roadYFrequency").min(-0.3).max(0.3).step(0.001).name("Path Y Frequency").onFinishChange(() => {
+            this.world.road.roadMaterial.uniforms.uDistortionY.value.y = this.options.roadYFrequency
+            this.world.deviderRoad.deviderRoadMaterial.uniforms.uDistortionY.value.y = this.options.roadYFrequency
+            this.world.lightRoad.materialLightCar.uniforms.uDistortionY.value.y = this.options.roadYFrequency
+            this.world.cars.forEach((item) => {
+                item.materialLightCar.uniforms.uDistortionY.value.y = this.options.roadYFrequency
+            })
+        })
     }
 
     destroy() {

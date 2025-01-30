@@ -18,13 +18,11 @@ export default class Camera {
 
         this.setInstance()
         this.setControls()
-        if (this.debug.active)
-            this.setDebug()
     }
 
     setInstance() {
         this.instance = new THREE.PerspectiveCamera(65, this.sizes.width / this.sizes.height, 0.1, 1000)
-        this.instance.position.set(-100, 200, -100)
+        this.instance.position.set(20, 20, 20)
         this.scene.add(this.instance)
     }
 
@@ -34,15 +32,6 @@ export default class Camera {
         // this.controls.enableRotate = false
         // this.controls.enableZoom = false
         // this.controls.enablePan = false
-    }
-
-    setDebug() {
-        const cameraFolder = this.debug.ui.addFolder("Camera")
-        cameraFolder.add(this.instance.position, "z").min(-10).max(10000).step(0.0001).name("z camera")
-        cameraFolder.add(this.instance.position, "y").min(-10).max(100).step(0.0001).name("y camera")
-        cameraFolder.add(this.instance, "fov").min(10).max(100).step(0.01).name("fov camera").onChange(() => {
-            this.resize()
-        })
     }
 
     resize() {
@@ -73,14 +62,14 @@ export default class Camera {
 
         this.speed += this.lerp(this.speed, this.speedTarget, 0.01);
         this.progress = (this.progress || 0) + this.speed * this.time.delta;
-        let posX = this.options.roadXAmplitude * Math.sin((this.progress + 150) * this.options.roadXFrequency);
-        let posY = this.options.roadYAmplitude * Math.sin((this.progress + 150) * this.options.roadYFrequency);
-        this.instance.position.set(posX, posY + 6, 150);
+        let posX = this.options.roadXAmplitude * Math.sin((this.progress + 190) * this.options.roadXFrequency);
+        let posY = this.options.roadYAmplitude * Math.sin((this.progress + 190) * this.options.roadYFrequency);
+        this.instance.position.set(posX, posY + 6, 190);
 
         const lookTarget = new THREE.Vector3(
             posX,
             posY + posY * 0.2,
-            175
+            215
         );
         this.instance.lookAt(lookTarget);
 
