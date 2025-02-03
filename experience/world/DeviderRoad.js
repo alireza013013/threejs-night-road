@@ -50,6 +50,7 @@ export default class DeviderRoad {
         this.deviderRoadMesh = new THREE.Mesh(this.deviderRoadGeometry, this.deviderRoadMaterial)
         this.deviderRoadMesh.rotation.x = -Math.PI / 2
         this.deviderRoadMesh.position.z = this.options.lengthRoad / 2;
+        this.deviderRoadMesh.position.y += 1
         this.scene.add(this.deviderRoadMesh)
     }
 

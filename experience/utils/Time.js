@@ -25,7 +25,6 @@ export default class Time extends EventEmitter {
 
 
         this.elapsedTime = this.clock.getElapsedTime()
-        // console.log("yes", this.elapsed, this.elapsedTime);
 
         this.trigger('tick')
 

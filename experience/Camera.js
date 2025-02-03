@@ -21,8 +21,9 @@ export default class Camera {
     }
 
     setInstance() {
-        this.instance = new THREE.PerspectiveCamera(65, this.sizes.width / this.sizes.height, 0.1, 1000)
+        this.instance = new THREE.PerspectiveCamera(85, this.sizes.width / this.sizes.height, 0.1, 1000)
         this.instance.position.set(20, 20, 20)
+
         this.scene.add(this.instance)
     }
 
@@ -67,7 +68,7 @@ export default class Camera {
         this.instance.position.set(posX, posY + 6, 190);
 
         const lookTarget = new THREE.Vector3(
-            posX,
+            posX + posX * 0.1,
             posY + posY * 0.2,
             215
         );
