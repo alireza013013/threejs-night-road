@@ -26,6 +26,7 @@ export default class Road {
         this.roadMaterial = new THREE.ShaderMaterial({
             vertexShader: roadVertex,
             fragmentShader: roadFagment,
+            side: THREE.DoubleSide,
             uniforms: {
                 uColor: { value: new THREE.Color(this.roadColor) },
                 uSpeed: { value: this.speed },

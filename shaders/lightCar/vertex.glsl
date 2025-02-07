@@ -33,9 +33,9 @@ void main() {
     modelPosition.xy += aOffset.xy;
 
     vec3 vNormal = normalize(normalMatrix * normal);
-    vec3 vLight = vec3(0.0, 80.0, 200.0);
-    intensity = dot(vNormal, vLight) * 0.8 + 0.5;
-
+    vec3 vLight = vec3(0.0, 100.0, 20.0);
+    intensity = dot(vNormal, vLight) * 0.8 + 2.5;
+    
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectionPosition = projectionMatrix * viewPosition;
 

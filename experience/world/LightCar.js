@@ -27,9 +27,9 @@ export default class LightCar {
     setGeometry() {
         const curve = new THREE.LineCurve3(
             new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0, 0, -1)
+            new THREE.Vector3(0, 0.3, -1)
         )
-        this.lightCarGeometry = new THREE.TubeGeometry(curve, 25, 1, 8, false);
+        this.lightCarGeometry = new THREE.TubeGeometry(curve, 40, 1.25, 18, false);
         this.instanceLightCarGeometry = new THREE.InstancedBufferGeometry().copy(this.lightCarGeometry)
         this.instanceLightCarGeometry.instanceCount = this.options.countPairCar
     }
@@ -40,20 +40,26 @@ export default class LightCar {
         this.widthSection = this.options.widthRoad / this.options.roadSection
 
         for (let i = 0; i < this.options.countPairCar; i++) {
-            let radius = Math.random() * 0.6 + 0.6;
+            // let radius = Math.random() * 0.6 + 0.6;
+            let radius = Math.random() * 0.2 + 0.2;
+            // let length =
+            //     Math.random() * this.options.lengthRoad * 0.6 + 6
             let length =
-                Math.random() * this.options.lengthRoad * 0.6 + 6
+                Math.random() * 40 + 50
             const line = i % 3
-            const offsetX = this.direction * ((this.widthSection / 4) * line + (this.widthSection) / 6 + Math.random() * radius * 1.5)
+            // const offsetX = this.direction * ((this.widthSection / 4) * line + (this.widthSection) / 6 + Math.random() * radius * 1.5)
+            const offsetX = this.direction * ((this.widthSection / 4) * line + (this.widthSection) / 6 + Math.random() * radius * 3.5)
 
             const offsetZ = Math.random() * this.options.lengthRoad;
 
             const i6 = i * 6
             this.aOffset[i6] = offsetX + radius / 4
-            this.aOffset[i6 + 1] = radius / 1.5
+            // this.aOffset[i6 + 1] = radius / 1.5
+            this.aOffset[i6 + 1] = radius * 2.5
             this.aOffset[i6 + 2] = offsetZ
             this.aOffset[i6 + 3] = offsetX - radius / 4
-            this.aOffset[i6 + 4] = radius / 1.5
+            // this.aOffset[i6 + 4] = radius / 1.5
+            this.aOffset[i6 + 4] = radius * 2.5
             this.aOffset[i6 + 5] = offsetZ
 
 

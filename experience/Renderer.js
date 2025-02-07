@@ -41,7 +41,7 @@ export default class Renderer {
         this.effectComposer.addPass(this.renderPass)
 
         this.unrealBloomPass = new UnrealBloomPass()
-        this.unrealBloomPass.strength = 0.16
+        this.unrealBloomPass.strength = 0.12
         this.unrealBloomPass.radius = 0.41
         this.unrealBloomPass.threshold = 0.65
         this.effectComposer.addPass(this.unrealBloomPass)

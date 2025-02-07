@@ -11,7 +11,7 @@ export default class Camera {
         this.options = this.experience.options
         this.debug = this.experience.debug
         this.time = this.experience.time
-        this.fovTarget = 45
+        this.fovTarget = 75
         this.speed = this.options.baseSpeed
         this.speedTarget = this.options.baseSpeed
 
@@ -21,18 +21,18 @@ export default class Camera {
     }
 
     setInstance() {
-        this.instance = new THREE.PerspectiveCamera(85, this.sizes.width / this.sizes.height, 0.1, 1000)
+        this.instance = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.1, 1000)
         this.instance.position.set(20, 20, 20)
 
         this.scene.add(this.instance)
     }
 
     setControls() {
-        // this.controls = new OrbitControls(this.instance, this.canvas)
-        // this.controls.enableDamping = true
-        // this.controls.enableRotate = false
-        // this.controls.enableZoom = false
-        // this.controls.enablePan = false
+        this.controls = new OrbitControls(this.instance, this.canvas)
+        this.controls.enableDamping = true
+        this.controls.enableRotate = false
+        this.controls.enableZoom = false
+        this.controls.enablePan = false
     }
 
     resize() {
@@ -47,7 +47,7 @@ export default class Camera {
 
     decreseFov() {
         this.speedTarget = this.options.baseSpeed
-        this.fovTarget = 65
+        this.fovTarget = 75
     }
     lerp(current, target, speed = 0.1, limit = 0.001) {
         let change = (target - current) * speed;
@@ -58,19 +58,19 @@ export default class Camera {
     }
 
     update() {
-        // this.controls.update()
+        this.controls.update()
 
 
         this.speed += this.lerp(this.speed, this.speedTarget, 0.01);
         this.progress = (this.progress || 0) + this.speed * this.time.delta;
-        let posX = this.options.roadXAmplitude * Math.sin((this.progress + 190) * this.options.roadXFrequency);
-        let posY = this.options.roadYAmplitude * Math.sin((this.progress + 190) * this.options.roadYFrequency);
-        this.instance.position.set(posX, posY + 6, 190);
+        let posX = this.options.roadXAmplitude * Math.sin((this.progress + 100) * this.options.roadXFrequency);
+        let posY = this.options.roadYAmplitude * Math.sin((this.progress + 100) * this.options.roadYFrequency);
+        this.instance.position.set(posX, posY + 3, 100);
 
         const lookTarget = new THREE.Vector3(
-            posX + posX * 0.1,
+            this.options.roadXAmplitude * Math.sin((this.progress + 120) * this.options.roadXFrequency),
             posY + posY * 0.2,
-            215
+            125
         );
         this.instance.lookAt(lookTarget);
 

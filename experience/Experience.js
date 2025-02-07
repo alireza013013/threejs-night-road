@@ -22,15 +22,15 @@ export default class Experience {
         // Options
         this.canvas = canvas
         this.options = {
-            widthRoad: 18,
+            widthRoad: 15,
             lengthRoad: 400,
             countPairCar: 100,
             roadSection: 2,
-            roadXAmplitude: 12,
-            roadXFrequency: 0.01,
-            roadYAmplitude: 17,
-            roadYFrequency: 0.03,
-            baseSpeed: 0.06,
+            roadXAmplitude: -40,
+            roadXFrequency: 0.012,
+            roadYAmplitude: 5.6,
+            roadYFrequency: 0.025,
+            baseSpeed: 0.05,
             amountIncreaseSpeed: 0.2,
             amountIncreaseBaseSpeed: 0.1,
         }
